@@ -1,16 +1,27 @@
 const fs = require('fs');
 const readline = require('readline');
 const EventEmitter = require('events');
-
-rl = readline.createInterface({
-  input: fs.createReadStream ('plain_lyrics.txt',{encoding: 'utf8'}),
-  output: fs.createWriteStream ('lyrics.srt',{encoding: 'utf8'})
-});
-
-rl.on('line',parseLine);
+var remote = require('remote');
+var dialog = remote.require('dialog');
 
 lyrics = [];
 processedLyrics = [];
+
+function openSong()
+{
+	dialog.showOpenDialog(
+		function(fileNames)
+		{
+			if (typeof fileNames === 'undefined')
+				return;
+			loadSong(fileNames[0]);
+		});
+}
+
+function loadSong(name)
+{
+	document.getElementById('music').src = name;
+}
 
 function ProcessedLyric(start,stop,lyric)
 {
@@ -32,6 +43,8 @@ function parseLine(line)
 function start()
 {
 	document.getElementById('music').play();
+	lyrics = document.getElementById('allLyrics').value.split('\n');
+	
 	i = 0;
 	currentStart = 0; currentStop = 0; currentLyric = lyrics[0];
 	timeUpdate = setInterval(updateTime,500);
@@ -56,13 +69,20 @@ function click()
 	}
 }
 
-function updateTime()
+function flash()
 {
-	if ($("#music").prop("ended") == true)
-		clearInterval(timeUpdate);
-	var time = $("#music").prop("currentTime");
-	var mins = floor(time / 60);
-	var secs = floor(time % 60);
-	$("#time").html(mins + ":" + secs);
-	
+	processedLyrics.push(new ProcessedLyric(document.getElementById('music').currentTime,'flash','rand'));
+	document.getElementById('processed').innerHTML += (processedLyrics[processedLyrics.length-1].print());
+}
+
+function beginLongFlash()
+{
+	processedLyrics.push(new ProcessedLyric(document.getElementById('music').currentTime,'blf',''));
+	document.getElementById('processed').innerHTML += (processedLyrics[processedLyrics.length-1].print());
+}
+
+function endLongFlash()
+{
+	processedLyrics.push(new ProcessedLyric(document.getElementById('music').currentTime,'elf',''));
+	document.getElementById('processed').innerHTML += (processedLyrics[processedLyrics.length-1].print());
 }

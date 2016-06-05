@@ -19,6 +19,12 @@ body, textarea
 	padding:0;
 }
 
+a
+{
+	font-family:arial;
+	color:white;
+}
+
 #currentLyric
 {
 	position:absolute;
