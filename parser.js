@@ -6,6 +6,8 @@ var dialog = remote.require('dialog');
 
 lyrics = [];
 processedLyrics = [];
+i = 0;
+displayed = true;
 
 function openSong()
 {
@@ -45,18 +47,17 @@ function start()
 	document.getElementById('music').play();
 	lyrics = document.getElementById('allLyrics').value.split('\n');
 	
-	i = 0;
 	currentStart = 0; currentStop = 0; currentLyric = lyrics[0];
 	timeUpdate = setInterval(updateTime,500);
 }
 
 function click()
 {
-	i += 0.5;
-	if (i%1 == 0.5)
+	if (!displayed || i == 0)
 	{
+		i++;
 		currentStart = document.getElementById('music').currentTime;
-		currentLyric = lyrics[i-0.5];
+		currentLyric = lyrics[i];
 		document.getElementById('currentLyric').innerHTML = currentLyric;
 		document.getElementById('allLyrics').innerHTML = document.getElementById('allLyirics').innerHTML.replace(currentLyric+'\n',"");
 	}
@@ -86,3 +87,75 @@ function endLongFlash()
 	processedLyrics.push(new ProcessedLyric(document.getElementById('music').currentTime,'elf',''));
 	document.getElementById('processed').innerHTML += (processedLyrics[processedLyrics.length-1].print());
 }
+
+function changeLyric()
+{
+	currentLyric = lyrics[i];
+	document.getElementById('currentLyric').innerHTML = currentLyric;
+	processedLyrics.push(new ProcessedLyric(document.getElementById('music').currentTime,'chl',currentLyric));
+	document.getElementById('processed').innerHTML += (processedLyrics[processedLyrics.length-1].print());
+	i++;
+}
+/*
+Nimeni nu mă caută, să ştii
+Chiar şi tu la mine nu mai vii
+Diagnoza noastră –
+amnezii
+Poate tu nu ai observat
+Timpul ca nisipul s-a spălat
+Nu lăsa uitat tot ce-ai uitat
+În scrisoarea mea din poezii
+Vei citi că viu sunt printre vii
+Încă nume-n piatră
+n-am purtat
+Rătăcind tăceri îmi e pe plac
+Să privesc la cer neîncetat
+Când soarele-noptează
+merg în pat
+Ies în stradă, calc noaptea
+Din mâini scrisorile-mi cad
+În pumni am degete strânse
+În toate uşile bat
+Deschideţi poarta!
+Poştaşul de voi n-a uitat!
+Eu îţi caut fereastra
+în care m-ai aşteptat
+În care m-ai așteptat!
+În care m-ai așteptat!
+De tine n-am uitat!
+Nimeni nu mă caută, să ştii
+Chiar şi tu la mine nu mai vii
+Diagnoza noastră –
+amnezii
+Pe covorul meu verde crustat
+A rămas un scaun și un pat
+Un perete spart
+de-un geam uitat
+În scrisoarea mea din poezii
+Vei citi că viu sunt printre vii
+Încă nume-n piatră
+n-am purtat
+Rătăcind tăceri îmi e pe plac
+Să privesc la cer neîncetat
+Când soarele-noptează
+merg în pat
+Ies în stradă, calc noaptea
+Din mâini scrisorile-mi cad
+În pumni am degete strânse
+În toate uşile bat
+Deschideţi poarta!
+Poştaşul de voi n-a uitat!
+Eu îţi caut fereastra
+în care m-ai aşteptat
+În care m-ai așteptat!
+În care m-ai așteptat!
+De tine n-am uitat!
+Ies în stradă, calc noaptea
+Din mâini scrisorile-mi cad
+În pumni am degete strânse
+În toate uşile bat
+Deschideţi poarta!
+Poştaşul de voi n-a uitat!
+Eu îţi caut fereastra
+în care m-ai aşteptat.
+*/
