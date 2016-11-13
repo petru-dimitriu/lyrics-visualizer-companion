@@ -3,11 +3,21 @@ const readline = require('readline');
 const EventEmitter = require('events');
 var remote = require('remote');
 var dialog = remote.require('dialog');
+window.$ = window.jQuery = require('jquery');
 
 lyrics = [];
 processedLyrics = [];
 i = 0;
 displayed = true;
+
+function initPage() {
+	$("body").keydown( function (event) {
+		if (String.fromCharCode(event.which) == 'C')
+			changeLyric();
+		else if (String.fromCharCode(event.which) == 'F')
+			flash();
+	});
+}
 
 function openSong()
 {
@@ -48,7 +58,7 @@ function start()
 	lyrics = document.getElementById('allLyrics').value.split('\n');
 	
 	currentStart = 0; currentStop = 0; currentLyric = lyrics[0];
-	timeUpdate = setInterval(updateTime,500);
+	//timeUpdate = setInterval(updateTime,500);
 }
 
 function click()
@@ -91,71 +101,10 @@ function endLongFlash()
 function changeLyric()
 {
 	currentLyric = lyrics[i];
+	$("#allLyrics").html($("#allLyrics").html().replace(currentLyric[i] + "\n",""));
 	document.getElementById('currentLyric').innerHTML = currentLyric;
 	processedLyrics.push(new ProcessedLyric(document.getElementById('music').currentTime,'chl',currentLyric));
 	document.getElementById('processed').innerHTML += (processedLyrics[processedLyrics.length-1].print());
 	i++;
 }
-/*
-Nimeni nu mă caută, să ştii
-Chiar şi tu la mine nu mai vii
-Diagnoza noastră –
-amnezii
-Poate tu nu ai observat
-Timpul ca nisipul s-a spălat
-Nu lăsa uitat tot ce-ai uitat
-În scrisoarea mea din poezii
-Vei citi că viu sunt printre vii
-Încă nume-n piatră
-n-am purtat
-Rătăcind tăceri îmi e pe plac
-Să privesc la cer neîncetat
-Când soarele-noptează
-merg în pat
-Ies în stradă, calc noaptea
-Din mâini scrisorile-mi cad
-În pumni am degete strânse
-În toate uşile bat
-Deschideţi poarta!
-Poştaşul de voi n-a uitat!
-Eu îţi caut fereastra
-în care m-ai aşteptat
-În care m-ai așteptat!
-În care m-ai așteptat!
-De tine n-am uitat!
-Nimeni nu mă caută, să ştii
-Chiar şi tu la mine nu mai vii
-Diagnoza noastră –
-amnezii
-Pe covorul meu verde crustat
-A rămas un scaun și un pat
-Un perete spart
-de-un geam uitat
-În scrisoarea mea din poezii
-Vei citi că viu sunt printre vii
-Încă nume-n piatră
-n-am purtat
-Rătăcind tăceri îmi e pe plac
-Să privesc la cer neîncetat
-Când soarele-noptează
-merg în pat
-Ies în stradă, calc noaptea
-Din mâini scrisorile-mi cad
-În pumni am degete strânse
-În toate uşile bat
-Deschideţi poarta!
-Poştaşul de voi n-a uitat!
-Eu îţi caut fereastra
-în care m-ai aşteptat
-În care m-ai așteptat!
-În care m-ai așteptat!
-De tine n-am uitat!
-Ies în stradă, calc noaptea
-Din mâini scrisorile-mi cad
-În pumni am degete strânse
-În toate uşile bat
-Deschideţi poarta!
-Poştaşul de voi n-a uitat!
-Eu îţi caut fereastra
-în care m-ai aşteptat.
-*/
+
