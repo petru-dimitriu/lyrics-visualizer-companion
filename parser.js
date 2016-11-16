@@ -1,8 +1,8 @@
 const fs = require('fs');
 const readline = require('readline');
 const EventEmitter = require('events');
-var remote = require('remote');
-var dialog = remote.require('dialog');
+var remote = require('electron').remote;
+const {dialog} = require('electron').remote;
 window.$ = window.jQuery = require('jquery');
 
 lyrics = [];
